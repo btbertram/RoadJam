@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4425020038328547977
+--- !u!1 &6869180435373755590
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,78 +8,78 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4425020038328547972}
-  - component: {fileID: 4425020038328547973}
-  - component: {fileID: 4425020038328547974}
-  - component: {fileID: 4425020038328547975}
-  - component: {fileID: 4425020038328547976}
+  - component: {fileID: 1671475857213869119}
+  - component: {fileID: 5849295730418260902}
+  - component: {fileID: 5822659875131469404}
+  - component: {fileID: 3909544587505648723}
+  - component: {fileID: 1319027103992201074}
   m_Layer: 0
-  m_Name: ForestTile
+  m_Name: RiverTile
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4425020038328547972
+--- !u!4 &1671475857213869119
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4425020038328547977}
+  m_GameObject: {fileID: 6869180435373755590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5025759, y: 3.255641, z: -1.9476256}
+  m_LocalPosition: {x: 6.384, y: -3.1935413, z: 7.4295197}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4425020038328547973
+--- !u!114 &5849295730418260902
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4425020038328547977}
+  m_GameObject: {fileID: 6869180435373755590}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84429c9ca611e784ca7e401298663ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 3
+  tileType: 4
   hasRoad: 0
   Neighbors: []
   connectedRoadTo: 4
   connectedRoadFrom: 4
---- !u!65 &4425020038328547974
+--- !u!65 &5822659875131469404
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4425020038328547977}
+  m_GameObject: {fileID: 6869180435373755590}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!33 &4425020038328547975
+--- !u!33 &3909544587505648723
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4425020038328547977}
-  m_Mesh: {fileID: 8112680308785019952, guid: 7a576ce9b64f5564dabb004ce8590690, type: 3}
---- !u!23 &4425020038328547976
+  m_GameObject: {fileID: 6869180435373755590}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1319027103992201074
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4425020038328547977}
+  m_GameObject: {fileID: 6869180435373755590}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -93,8 +93,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7808685474014621645, guid: 7a576ce9b64f5564dabb004ce8590690, type: 3}
-  - {fileID: 6699911650514308075, guid: 7a576ce9b64f5564dabb004ce8590690, type: 3}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

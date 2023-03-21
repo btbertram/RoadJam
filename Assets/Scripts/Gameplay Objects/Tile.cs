@@ -9,13 +9,12 @@ public class Tile : MonoBehaviour
     [SerializeField]
     public ETileType tileType;
 
-    [SerializeField]
-    bool hasRoad = false;
+    public bool hasRoad = false;
     
     //A list of adjacent GameObjects with Tile components, ordered NESW.
     public List <GameObject> Neighbors;
-    EDirection connectedRoadTo = EDirection.EDefaultDirection;
-    EDirection connectedRoadFrom = EDirection.EDefaultDirection;
+    public EDirection connectedRoadTo = EDirection.EDefaultDirection;
+    public EDirection connectedRoadFrom = EDirection.EDefaultDirection;
     
     // Start is called before the first frame update
     void Start()
