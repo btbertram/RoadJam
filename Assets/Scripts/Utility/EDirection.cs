@@ -3,5 +3,6 @@ public enum EDirection
     ENorth,
     EEast,
     ESouth,
-    EWest
+    EWest,
+    EDefaultDirection
 }

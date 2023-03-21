@@ -1,9 +1,11 @@
 
 public enum ETileType
 {
-    EDefaultBlank,
+    EStart,
+    ECity,
     EPlains,
     EForest,
     ERiver,
-    EMountain
+    EMountain,
+    EDefaultType
 }
