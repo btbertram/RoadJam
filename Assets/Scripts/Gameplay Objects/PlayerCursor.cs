@@ -126,21 +126,42 @@ public class PlayerCursor : MonoBehaviour
                 //Can't build on start tile
                 break;
             case ETileType.ECity:
-                //Building on city tile costs no resources, increase gamestate variable
+                canBuild = true;
+                currentLevel.citiesTrailed += 1;
                 break;
             case ETileType.EPlains:
-                if(true/*GameState.RoadsRemaining > 0*/)
+                if(currentLevel.roadsUsed < currentLevel.roadLimit)
                 {
                     canBuild = true;
-                    //GameState.RoadsRemaining -= 1;
+                    currentLevel.roadsUsed+=1;
                 }
                 break;
             case ETileType.EForest:
-                //requires axe
+                if (currentLevel.roadsUsed < currentLevel.roadLimit  && currentLevel.axesHeld > 0)
+                {
+                    canBuild = true;
+                    currentLevel.roadsUsed += 1;
+                    currentLevel.axesHeld -= 1;
+                }
                 break;
             case ETileType.ERiver:
-                //Can't build from river to river
-                //Can't build on river corners (check neighbors)
+                if (currentLevel.roadsUsed < currentLevel.roadLimit && currentLevel.bridgesHeld > 0)
+                {
+                    //Can't build from river to river
+                    if(currentTargetTile.GetComponent<Tile>().tileType == ETileType.ERiver)
+                    {
+                        break;
+                    }
+
+                    if(nextTargetTile.GetComponent<Tile>().tileIntersectionType != EIntersectionType.EThrough)
+                    {
+                        break;
+                    }
+
+                    canBuild = true;
+                    currentLevel.roadsUsed += 1;
+                    currentLevel.bridgesHeld -= 1;
+                }
                 break;
             case ETileType.EMountain:
                 //Can't build on mountain tile
