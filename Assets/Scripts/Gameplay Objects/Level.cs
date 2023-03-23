@@ -8,6 +8,14 @@ public class Level : MonoBehaviour
     //The number of roads allowed to be used for the level.
     [SerializeField]
     public int roadLimit;
+    public int roadsUsed = 0;
+
+    [SerializeField]
+    public int citiesRequired;
+    public int citiesTrailed;
+
+    public int bridgesHeld = 0;
+    public int axesHeld = 0;
 
     //All tiles in play.
     public GameObject[] tileList;
@@ -15,6 +23,7 @@ public class Level : MonoBehaviour
     //The current roadway from start to end.
     public List<GameObject> trail;
 
+    bool trailComplete = false;
 
     private void Awake()
     {
