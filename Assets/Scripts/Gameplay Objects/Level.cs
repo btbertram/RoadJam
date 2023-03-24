@@ -7,8 +7,8 @@ public class Level : MonoBehaviour
 {
     //The number of roads allowed to be used for the level.
     [SerializeField]
-    public int roadLimit;
-    public int roadsUsed = 0;
+    public int startingBudget;
+    public int currentBudget;
 
     [SerializeField]
     public int citiesRequired;
@@ -16,6 +16,16 @@ public class Level : MonoBehaviour
 
     public int bridgesHeld = 0;
     public int axesHeld = 0;
+
+    public bool tileCostOverride = false;
+    public int overridePlainsCost;
+    public int overrideCitiesCost;
+    public int overrideForestsCost;
+    public int overrideRiversCost;
+    public int overrideMountainCost;
+
+
+    //public int tileCost = 0;
 
     //All tiles in play.
     public GameObject[] tileList;
@@ -42,7 +52,7 @@ public class Level : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        currentBudget = startingBudget;
 
 
     }

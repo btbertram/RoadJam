@@ -5,12 +5,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 //A class which represents the player.
+//TODO: Too much functionality in this class- currently is the player, the Cursor, and the controller. Seperate these.
 public class PlayerCursor : MonoBehaviour
 {
     Level currentLevel;
     Tile currentTargetTile;
     
     public float cursorSpeed;
+
+    EDirection currentDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +27,7 @@ public class PlayerCursor : MonoBehaviour
     void Update()
     {
         //Control catching/Movement here
-        EDirection currentDirection = CaptureMoveDirection();
+        CaptureMoveDirection(out currentDirection);
         if(currentDirection != EDirection.EDefaultDirection)
         {
             BuildRoad(currentDirection);
@@ -42,32 +45,30 @@ public class PlayerCursor : MonoBehaviour
     }
 
     //Captures player input
-    EDirection CaptureMoveDirection()
+    void CaptureMoveDirection(out EDirection direction)
     {
-        EDirection moveDirection = EDirection.EDefaultDirection;
+        direction = EDirection.EDefaultDirection;
 
         //check right
         if (Input.GetButtonDown(EInputs.Right.ToString()))
         {
-            moveDirection = EDirection.EEast;
+            direction = EDirection.EEast;
         }
         //check left
         else if (Input.GetButtonDown(EInputs.Left.ToString()))
         {
-            moveDirection = EDirection.EWest;
+            direction = EDirection.EWest;
         }
         //check up
         else if (Input.GetButtonDown(EInputs.Up.ToString()))
         {
-            moveDirection = EDirection.ENorth;
+            direction = EDirection.ENorth;
         }
         //check down
         else if (Input.GetButtonDown(EInputs.Down.ToString()))
         {
-            moveDirection = EDirection.ESouth;
+            direction = EDirection.ESouth;
         }
-
-        return moveDirection;
     }
 
     void BuildRoad(EDirection moveDirection)
@@ -89,7 +90,11 @@ public class PlayerCursor : MonoBehaviour
                     if (PlaceRoad(currentTargetTile.Neighbors[(int)moveDirection].GetComponent<Tile>(), moveDirection))
                     {
                         //Road placed, change current tile
+                        currentTargetTile.UpdateTileAppearance();
                         currentTargetTile = currentTargetTile.Neighbors[(int)moveDirection].GetComponent<Tile>();
+                        currentTargetTile.UpdateTileAppearance();
+
+                        //update tile graphics
                         //Road placed, add tile to trail
                         currentLevel.trail.Add(currentLevel.gameObject);
                     }
@@ -110,10 +115,6 @@ public class PlayerCursor : MonoBehaviour
         }
 
     }
-    //graphics call- update model/materials or add overlay, etc. DO NOT CHANGE TILE TYPE
-    //add current tile to grid's trail
-    ///Tile.ShowRoad();
-    ///SoundManager.PlayBuildSound() ???
 
     bool PlaceRoad(Tile nextTargetTile, EDirection buildDirection)
     {
@@ -130,22 +131,22 @@ public class PlayerCursor : MonoBehaviour
                 currentLevel.citiesTrailed += 1;
                 break;
             case ETileType.EPlains:
-                if(currentLevel.roadsUsed < currentLevel.roadLimit)
+                if(currentLevel.currentBudget > 0)
                 {
                     canBuild = true;
-                    currentLevel.roadsUsed+=1;
+                    currentLevel.currentBudget-=1;
                 }
                 break;
             case ETileType.EForest:
-                if (currentLevel.roadsUsed < currentLevel.roadLimit  && currentLevel.axesHeld > 0)
+                if (currentLevel.currentBudget > 0  && currentLevel.axesHeld > 0)
                 {
                     canBuild = true;
-                    currentLevel.roadsUsed += 1;
+                    currentLevel.currentBudget -= 1;
                     currentLevel.axesHeld -= 1;
                 }
                 break;
             case ETileType.ERiver:
-                if (currentLevel.roadsUsed < currentLevel.roadLimit && currentLevel.bridgesHeld > 0)
+                if (currentLevel.currentBudget > 0 && currentLevel.bridgesHeld > 0)
                 {
                     //Can't build from river to river
                     if(currentTargetTile.GetComponent<Tile>().tileType == ETileType.ERiver)
@@ -153,14 +154,34 @@ public class PlayerCursor : MonoBehaviour
                         break;
                     }
 
-                    if(nextTargetTile.GetComponent<Tile>().tileIntersectionType != EIntersectionType.EThrough)
+                    bool validTileIntersection = false;
+                    switch (nextTargetTile.GetComponent<Tile>().tileIntersectionType)
                     {
-                        break;
+                        case EIntersectionType.EEnd:
+                            validTileIntersection = true;
+                            break;
+                        case EIntersectionType.EThrough:
+                            validTileIntersection = true;
+                            break;
+                        case EIntersectionType.ECorner:
+                            break;
+                        case EIntersectionType.ETJunction:
+                            break;
+                        case EIntersectionType.ECross:
+                            break;
+                        case EIntersectionType.EDefaultNone:
+                            validTileIntersection = true;
+                            break;
+                        default:
+                            break;
                     }
 
-                    canBuild = true;
-                    currentLevel.roadsUsed += 1;
-                    currentLevel.bridgesHeld -= 1;
+                    if(validTileIntersection)
+                    {
+                        canBuild = true;
+                        currentLevel.currentBudget -= 1;
+                        currentLevel.bridgesHeld -= 1;
+                    }
                 }
                 break;
             case ETileType.EMountain:
@@ -196,6 +217,8 @@ public class PlayerCursor : MonoBehaviour
                 default:
                     break;
             }
+
+
 
             //graphics call- update model/materials or add overlay, etc. DO NOT CHANGE TILE TYPE
             //add current tile to grid's trail

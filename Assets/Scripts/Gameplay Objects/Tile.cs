@@ -1,5 +1,8 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,8 +11,8 @@ public class Tile : MonoBehaviour
 {
     [SerializeField]
     public ETileType tileType;
-
     public bool hasRoad = false;
+    public int tileCost;
     
     //A list of adjacent GameObjects with Tile components, ordered NESW.
     public List <GameObject> Neighbors;
@@ -30,7 +33,8 @@ public class Tile : MonoBehaviour
     {
         FindNeighbors();
         CheckMatchingType();
-        //SetTileAppearance();
+        SetTileCost(FindObjectOfType<Level>().tileCostOverride);
+        UpdateTileAppearance();
     }
 
     // Update is called once per frame
@@ -83,9 +87,9 @@ public class Tile : MonoBehaviour
 
         for (int x = 0; x < Neighbors.Count; x++)
         {
-            if (gameObject != null)
+            if (Neighbors[x] != null)
             {
-                if (gameObject.GetComponent<Tile>().tileType == tileType)
+                if (Neighbors[x].GetComponent<Tile>().tileType == tileType)
                 {
                     matches += 1;
                     matchDirections[x] = true;
@@ -155,11 +159,11 @@ public class Tile : MonoBehaviour
                     {
                         if (matchDirections[(int)EDirection.EEast])
                         {
-                            tileFacing = EDirection.ENorth;                            
+                            tileFacing = EDirection.EWest;                            
                         }
                         else
                         {
-                            tileFacing = EDirection.EWest;                            
+                            tileFacing = EDirection.ENorth;                            
                         }
                     }
                 }
@@ -227,28 +231,50 @@ public class Tile : MonoBehaviour
                 else
                 {
                     roadIntersectionType = EIntersectionType.ECorner;
-                    if (connectedRoadTo == EDirection.ENorth)
-                    {
-                        if (connectedRoadFrom == EDirection.EEast)
-                        {
-                            roadFacing = EDirection.ESouth;
-                        }
-                        else
-                        {
-                            roadFacing = EDirection.EEast;
-                        }
 
-                    }
-                    else
+                    switch (connectedRoadFrom)
                     {
-                        if (connectedRoadFrom == EDirection.EWest)
-                        {
-                            tileFacing = EDirection.ENorth;
-                        }
-                        else
-                        {
-                            tileFacing = EDirection.EWest;
-                        }
+                        case EDirection.ENorth:
+                            if(connectedRoadTo == EDirection.EEast)
+                            {
+                                roadFacing = EDirection.ESouth;
+                            }
+                            else
+                            {
+                                roadFacing = EDirection.EEast;
+                            }
+                            break;
+                        case EDirection.EEast:
+                            if(connectedRoadTo == EDirection.ENorth)
+                            {
+                                roadFacing = EDirection.ESouth;
+                            }
+                            else
+                            {
+                                roadFacing = EDirection.EWest;
+                            }
+                            break;
+                        case EDirection.ESouth:
+                            if(connectedRoadTo == EDirection.EEast)
+                            {
+                                roadFacing = EDirection.EWest;
+                            }
+                            else
+                            {
+                                roadFacing = EDirection.ENorth;
+                            }
+                            break;
+                        case EDirection.EWest: 
+                            if( connectedRoadTo == EDirection.ENorth)
+                            {
+                                roadFacing = EDirection.EEast;
+                            }
+                            else
+                            {
+                                roadFacing = EDirection.ENorth;
+                            }
+
+                            break;   
                     }
                 }
             }
@@ -256,22 +282,22 @@ public class Tile : MonoBehaviour
     }
 
     //Checks Neighbors to determine appearance. By default, the apparance of the tile will match the type, determined by the prefab in Unity.
-    void SetTileAppearance()
+    public void UpdateTileAppearance()
     {
         if (hasRoad)
         {
-            //Find connected roads, find facing
-            //CheckMatchingType(hasRoad);
-
-
+            UpdateRoad();
             //give it a road tile
             switch (roadIntersectionType)
             {
                 case EIntersectionType.EEnd:
+                    ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_RoadTileEndCap.fbx", 0);
                     break;
                 case EIntersectionType.EThrough:
+                    ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_RoadTileMiddle.fbx", 90);
                     break;
                 case EIntersectionType.ECorner:
+                    ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_RoadTileCorner.fbx", 0);
                     break;
             }
         }
@@ -285,25 +311,176 @@ public class Tile : MonoBehaviour
                     switch (tileIntersectionType)
                     {
                         case EIntersectionType.EEnd:
+                            ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_WaterTileRiverEndCap.fbx", 90);
                             break;
                         case EIntersectionType.EThrough:
+                            ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_WaterTileRiverMiddle.fbx", 0);
                             break;
                         case EIntersectionType.ECorner:
+                            ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_WaterTileRiverCorner.fbx", 0);
                             break;
                         case EIntersectionType.ETJunction:
+                            ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_WaterTileRiverT.fbx", 0);
                             break;
                         case EIntersectionType.ECross:
+                            ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_WaterTile4InsideCorners.fbx", 0);
                             break;
                         case EIntersectionType.EDefaultNone:
                             break;
                         default:
                             break;
                     }
+                    break;
+
+                case ETileType.EMountain:
+
+                    switch (tileIntersectionType)
+                    {
+                        case EIntersectionType.EEnd:
+                            ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_MountainTileEndCap.fbx", -90);
+                            break;
+                        case EIntersectionType.EThrough:
+                            ReassignMeshByJunctionAndFacing("Assets/Meshes/Mesh_MountainTileRidge.fbx", 0);
+                            break;
+                    }
 
                     break;
+
+
                 default:
                     break;
 
+            }
+        }
+
+    }
+
+    void ReassignMaterials()
+    {
+        Material[] materials = new Material[0];
+        GameObject targetObject;
+
+        if(hasRoad)
+        {
+            materials = new Material[1];
+            materials[0] = (Material)AssetDatabase.LoadAssetAtPath("Assets/Textures + Materials/PlaceholderMat.mat", typeof(Material));
+            targetObject = gameObject.transform.Find("RoadMesh").gameObject;
+            targetObject.GetComponent<MeshRenderer>().materials = materials;
+        }
+        else
+        {
+            switch (tileType)
+            {
+                case ETileType.EPlains:
+                    materials = new Material[1];
+                    materials[0] = (Material)AssetDatabase.LoadAssetAtPath("Assets/Textures + Materials/FieldTex.png", typeof(Material));
+                    break;
+                case ETileType.EForest:
+                    materials = new Material[2];
+                    materials[0] = (Material)AssetDatabase.LoadAssetAtPath("Assets/Textures + Materials/TreePlaneTex.png", typeof (Material));
+                    materials[1] = (Material)AssetDatabase.LoadAssetAtPath("Assets/Textures + Materials/TreeTex.png", typeof (Material));
+                    break;
+                default:
+                    materials = new Material[1];
+                    materials[0] = (Material)AssetDatabase.LoadAssetAtPath("Assets/Textures + Materials/PlaceholderMat.mat", typeof(Material));
+                    break;
+            }
+            targetObject = gameObject.transform.Find("TileMesh").gameObject;
+            targetObject.GetComponent<MeshRenderer>().materials = materials;
+        }
+    }
+
+    void ReassignMeshByJunctionAndFacing(string assetPath, float offset)
+    {
+        Mesh newMesh = (Mesh)AssetDatabase.LoadAssetAtPath(assetPath, typeof(Mesh));
+        GameObject meshGameObject;
+        Vector3 rotation;
+
+        if(hasRoad)
+        {
+            meshGameObject = gameObject.transform.Find("RoadMesh").gameObject;
+            meshGameObject.GetComponent<MeshFilter>().mesh = newMesh;
+            switch (roadFacing)
+            {
+                case EDirection.ENorth:
+                    rotation = new Vector3(0, 0 + offset, 0);
+                    meshGameObject.transform.rotation = Quaternion.identity;
+                    meshGameObject.transform.Rotate(rotation);
+                    break;
+                case EDirection.EEast:
+                    rotation = new Vector3(0, 90 + offset, 0);
+                    meshGameObject.transform.rotation = Quaternion.identity;
+                    meshGameObject.transform.Rotate(rotation);
+                    break;
+                case EDirection.ESouth:
+                    rotation = new Vector3(0, 180 + offset, 0);
+                    meshGameObject.transform.rotation = Quaternion.identity;
+
+                    meshGameObject.transform.Rotate(rotation);
+                    break;
+                case EDirection.EWest:
+                    rotation = new Vector3(0, 270 + offset, 0);
+                    meshGameObject.transform.rotation = Quaternion.identity;
+                    meshGameObject.transform.Rotate(rotation);
+                    break;
+            }
+        }
+        else
+        {
+            meshGameObject = gameObject.transform.Find("TileMesh").gameObject;
+            meshGameObject.GetComponent<MeshFilter>().mesh = newMesh;
+            switch (tileFacing)
+            {
+                case EDirection.ENorth:
+                    rotation = new Vector3(0, 0 + offset, 0);
+                    meshGameObject.transform.rotation = Quaternion.identity;
+
+                    meshGameObject.transform.Rotate(rotation);
+                    break;
+                case EDirection.EEast:
+                    rotation = new Vector3(0, 90 + offset, 0);
+                    meshGameObject.transform.rotation = Quaternion.identity;
+
+                    meshGameObject.transform.Rotate(rotation);
+                    break;
+                case EDirection.ESouth:
+                    rotation = new Vector3(0, 180 + offset, 0);
+                    meshGameObject.transform.rotation = Quaternion.identity;
+
+                    meshGameObject.transform.Rotate(rotation);
+                    break;
+                case EDirection.EWest:
+                    rotation = new Vector3(0, 270 + offset, 0);
+                    meshGameObject.transform.rotation = Quaternion.identity;
+
+                    meshGameObject.transform.Rotate(rotation);
+                    break;
+            }
+        }
+        ReassignMaterials();
+    }
+
+    void SetTileCost(bool doesLevelOverride)
+    {
+        if (doesLevelOverride)
+        {
+            switch (tileType)
+            {
+                case ETileType.ECity:
+                    tileCost = FindObjectOfType<Level>().overrideCitiesCost;
+                    break;
+                case ETileType.EPlains:
+                    tileCost = FindObjectOfType<Level>().overridePlainsCost;
+                    break;
+                case ETileType.EForest:
+                    tileCost = FindObjectOfType<Level>().overrideForestsCost;
+                    break;
+                case ETileType.ERiver:
+                    tileCost = FindObjectOfType<Level>().overrideRiversCost;
+                    break;
+                case ETileType.EMountain:
+                    tileCost = FindObjectOfType<Level>().overrideMountainCost;
+                    break;
             }
         }
 
