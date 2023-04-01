@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Game
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 121
+  controlID: 137
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 58
+  controlID: 127
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 59
+  controlID: 128
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -318,22 +318,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Textures + Materials
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Textures + Materials
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\brenn\Documents\Local Game Projects\RoadJam
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 84580000
-    m_LastClickedID: 22660
-    m_ExpandedIDs: 000000006e580000fe5f000000ca9a3bffffff7f
+    m_SelectedIDs: 5a580000
+    m_LastClickedID: 22618
+    m_ExpandedIDs: 000000004e580000505800005c5800000c5900002c59000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -361,7 +361,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000006e580000
+    m_ExpandedIDs: 000000004e58000050580000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -490,10 +490,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 270}
-      m_SelectedIDs: 8636ffff
-      m_LastClickedID: -51578
-      m_ExpandedIDs: 7837ffff7a41ffffa2adffffeab5ffffb8f5ffffc2f8ffff94faffff
+      scrollPos: {x: 0, y: 48}
+      m_SelectedIDs: 3a7c0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 44e0feff2ae4feff94ecfeffceedfeff30f1feffe455ffff7056ffffa456ffffdc56ffff7057ffff9c57ffff249bffffcebcffff36fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -594,7 +594,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: unity-transform-toolbar
@@ -776,9 +776,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.8622727, y: -13.253634, z: 4.8278723}
+    m_Target: {x: 1.3337747, y: -14.966782, z: 20.270227}
     speed: 2
-    m_Value: {x: 0.8622727, y: -13.253634, z: 4.8278723}
+    m_Value: {x: 1.3337747, y: -14.966782, z: 20.270227}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -825,13 +825,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.50190425, y: -0.08087858, z: 0.0474755, w: -0.8599783}
+    m_Target: {x: -0.33705446, y: 0.023330959, z: -0.007809287, w: -0.94137174}
     speed: 2
-    m_Value: {x: -0.5019082, y: -0.07957794, z: 0.046716377, w: -0.85998434}
+    m_Value: {x: -0.33698845, y: 0.02332639, z: -0.0078077577, w: -0.9411874}
   m_Size:
-    m_Target: 8.994877
+    m_Target: 15.252936
     speed: 2
-    m_Value: 8.607537
+    m_Value: 15.252936
   m_Ortho:
     m_Target: 0
     speed: 2
